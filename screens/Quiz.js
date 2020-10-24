@@ -1,78 +1,77 @@
-import React, { useState } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+import React, { useState,useEffect } from 'react';
+import {Text,View} from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import FlatButton from '../components/FlatButton';
 
-export default function Quiz() {
-    const [quiz, setQuiz] = useState({
-        1: {Question:"We have two ..... We see with them.",A:"eyes",B:"legs",C:"hands",D:"ears",anwer:"A"},
-        2: {Question:"There ..... many books on the table.", A :"is" ,B:"have",C: "are" ,D:"has" ,anwer:"C"},
-        3: {Question:"They go.... on Sundays", A:"shopping", B:"to shop", C:"for shopping" ,D:"to make shopping",anwer: "A"},
-    })
+import {globalStyles} from '../globalStyle/style';
+
+const Quiz =() => {
+    //init state
+    const [quiz, setQuiz] = useState([
+        {id:0,question:"We have two ..... We see with them.",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
+        {id:1,question:"There ..... many books on the table.",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
+        {id:2,question:"1111111", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
+        {id:4,question:"2222222222",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
+        {id:5,question:"33333",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
+        {id:6,question:"4444444444444444", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
+        {id:7,question:"1231231231",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
+        {id:8,question:"99999999999999999",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
+        {id:9,question:"8888888888888", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
+    ])
+
+    const [total, setTotal] = useState(quiz.length);
     const [point, setPoint] = useState(0);
-    const [currentPos, setCurrentPos] = useState(1)
-    const [currentQuiz, setCurrentQuiz] = useState(quiz[currentPos]);
-    // const [state, setState] = useState("");
 
-    const anwerQuiz = (value) =>{
-        if(value==currentQuiz.anwer){
-            setPoint(point+1)
+    const [ramdom,setRamdom] = useState(Math.floor(Math.random()*quiz.length));
+    const [currentQuiz, setCurrentQuiz] = useState(quiz[ramdom]);
+
+    const [answers, setAnswers] = useState(currentQuiz.answers)
+
+    useEffect(() => {
+        setRamdom(Math.floor(Math.random()*quiz.length));
+        let arr = []
+        let arrTempt = answers;
+        for (let i = arrTempt.length-1 ; i >-1 ; i--){
+            let ramdom = Math.floor(Math.random()*i);
+            arr.push(arrTempt[ramdom])
+            let tempt = arrTempt.filter( x => x != arrTempt[ramdom])
+            arrTempt = tempt;
         }
-        setCurrentPos(currentPos + 1);
-        setCurrentQuiz(quiz[currentPos+1]);
+        setAnswers(arr);
+        // console.log(currentQuiz);
+    },[quiz])
+
+    //get point and next to new answer
+    const answerQuiz = (value) =>{
+        if(value === currentQuiz.correctAnwer){
+            setPoint(point+1);
+        }
+       
+        let newQuizCollection = quiz.filter(quizs => quizs.id != currentQuiz.id)
+        setQuiz(newQuizCollection);
+        setCurrentQuiz(quiz[ramdom]);
     }
-
-   
-    return currentQuiz != null?(
+   //Màn hình trả lời
+    return quiz.length != 0?(
         <View>
-
-            <Text style= {styles.question} >{currentQuiz.Question}</Text>
-
+            <Text style= {globalStyles.question} >{currentQuiz.question}</Text>
             <View> 
-                <FlatButton onPress={()=>anwerQuiz("A")} style={styles.button} title={currentQuiz.A} />
-                <FlatButton onPress={()=>anwerQuiz("B")} style={styles.button} title={currentQuiz.B} />
-                <FlatButton onPress={()=>anwerQuiz("C")} style={styles.button} title={currentQuiz.C} />
-                <FlatButton onPress={()=>anwerQuiz("D")} style={styles.button} title={currentQuiz.D} />
+                <FlatList
+                data={answers}
+                renderItem={({item,index})=>(
+                    <FlatButton  key={index} onPress={()=>answerQuiz(item)} style={globalStyles.button} title={item} />
+                )}
+                />
             </View>
-
-                <Text style= {styles.score}>Score: {point}/8</Text>
+                <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
         </View>
-    ):
+    ):// Xuất kết quả khi hoàn tất
     (
-        <View style={{paddingVertical:"60%",flex:1}}> 
-            <Text style= {styles.score} >End of the test</Text>
-            <Text style= {styles.score}>Score: {point}/8</Text>
+        <View >
+            <Text style= {globalStyles.score} >End of the test</Text>
+            <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
         </View>
     )
 }
 
-
-const styles = StyleSheet.create({
-    button:{
-        backgroundColor:"salmon",
-        marginTop:5,
-        textAlign:"center",
-        marginHorizontal:15,
-        borderRadius:10,
-    },
-
-    question:{
-        fontSize:25,
-        textAlign:"center",
-        fontStyle:"italic",
-        marginHorizontal:10,
-        height:100,
-        marginTop:100,
-    },
-
-    score:{
-        color:"salmon",
-        fontSize:25,
-        textAlign:"center",
-        fontWeight:"800",
-        marginTop:50,
-    },
-})
+export default Quiz;

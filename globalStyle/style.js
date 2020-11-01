@@ -37,4 +37,16 @@ export const globalStyles = StyleSheet.create({
         fontWeight:"800",
         marginTop:50,
     },
+
+    backgroundImage: {
+        flex: 1,
+        resizeMode:'center',
+        // justifyContent: "center"
+      },
+
+    container:{
+        flex:1,
+        // alignItems:"center",
+        // paddingHorizontal:"auto"
+    }
 })

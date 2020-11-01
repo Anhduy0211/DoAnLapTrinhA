@@ -1,16 +1,25 @@
 import React from 'react';
+
+import { Icon } from 'react-native-elements';
+
+import { StyleSheet } from 'react-native';
 import {Text,View} from 'react-native';
 
-import {globalStyles} from '../globalStyle/style'
 
-const Header = ({title}) =>{
+const Header = ({navigation}) =>{
     return(
-        <View style ={globalStyles.header}>
-            <View>
-                <Text style ={globalStyles.headerText}>{title}</Text>
-            </View>
+        <View style ={styles.header}>
+            <Icon name='menu' size={36} color='white' onPress={() => navigation.toggleDrawer()} />
         </View>
     )
 }
 
+ const styles = StyleSheet.create({
+    header:{
+        marginRight:15,
+    },
+ })
+
+
 export default Header;
+

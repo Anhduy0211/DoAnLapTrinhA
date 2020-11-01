@@ -5,9 +5,12 @@ import {
 } from 'react-native';
 
 const Score = () =>{
-    <View>
-        <Text>Score Screen</Text>
-    </View>
+    return(
+        <View>
+            <Text>Score Screen</Text>
+        </View>
+    )
+    
 }
 
 export default Score

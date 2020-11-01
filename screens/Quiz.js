@@ -1,23 +1,14 @@
 import React, { useState,useEffect } from 'react';
-import {Text,View} from 'react-native';
+import {Button, Text,View} from 'react-native';
+import PieCharter from '../components/PieChart';
 import QuizScreen from '../components/QuizScreen';
 
 import {globalStyles} from '../globalStyle/style';
 
-const Quiz =() => {
-    //Bộ câu hỏi
+const Quiz =({quizColl,navigation }) => {
     //----------------------------------------Initial State--------------------------------------------------------// 
-    const [quiz, setQuiz] = useState([
-        {id:0,question:"1",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
-        {id:1,question:"2",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
-        // {id:2,question:"3", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
-        // {id:3,question:"4",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
-        // {id:4,question:"5",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
-        // {id:5,question:"6", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
-        // {id:6,question:"7",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
-        // {id:7,question:"8",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
-        // {id:8,question:"9", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
-    ])
+    //Bộ n câu hỏi
+    const [quiz, setQuiz] = useState(quizColl)
 
     // Flag start / end
     const [start, setStart] = useState(true)
@@ -113,7 +104,7 @@ const Quiz =() => {
     //Lúc chấm điểm
     else if(check === true)
         return(
-        <View>
+        <View style={globalStyles.container}>
             {checkValue?
             <View>
                 <Text style= {globalStyles.score}>Your answer is correct</Text>
@@ -130,7 +121,10 @@ const Quiz =() => {
         <View >
             <Text style= {globalStyles.score} >End of the test</Text>
             <Text style= {globalStyles.score} >{evaluate(point,total)?evaluate(point,total):"Test end"}</Text>
+            <PieCharter total={total} point={point}/>
             <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
+            <Button title="Back" onPress= {()=>navigation.navigate('Home')}/>
+            <Button title="Again" onPress= {()=>navigation.push('Quiz')}/>
         </View>)
 
     //Màn hình của QUIZ

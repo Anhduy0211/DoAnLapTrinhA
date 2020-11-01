@@ -10,9 +10,9 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
     useEffect(() => {
         let arr = []
         let arrTempt = quiz.answers;
-        for (let i = 3 ; i >-1 ; i--){
+        for (let i = arrTempt.length-1 ; i >-1 ; i--){
             let random = Math.floor(Math.random()*(i+1));
-            if(random==i+i){
+            if(random==i+1){
                 random = Math.floor(Math.random()*(i+1));
             }
             arr.push(arrTempt[random])
@@ -31,14 +31,18 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
                     <FlatButton  key={index} 
                     onPress={()=>(onAnwerQuiz(item))} 
                     style={globalStyles.button} 
-                    title={item} />
-                    )}/>
+                    title={item}
+                    pos={index} />
+                    )}
+                    keyExtractor={(item,index) => index }
+                    />
             </View>
         </View>
     )
 }
 
 export default QuizScreen
+
 
 
 

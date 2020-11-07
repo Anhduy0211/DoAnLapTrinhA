@@ -52,6 +52,4 @@ const PieCharter = ({point, total})=> {
   );
 }
 
-
-
 export default PieCharter

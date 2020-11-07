@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import {Text,View} from 'react-native';
+import {StyleSheet, Text,View, VirtualizedList} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import FlatButton from '../components/FlatButton';
 
@@ -22,8 +22,20 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
         setAnswers(arr)
     }, [quiz])
     return(
-        <View>
-            <Text style={globalStyles.question}>{quiz.question}</Text>
+        <View style={{
+            flex:1,
+            justifyContent:'space-between',
+            paddingHorizontal:20
+        }}> 
+            <View style={{
+                flex:1,
+                flexWrap:'nowrap',
+                justifyContent:'center'
+            }}>
+                <View>
+                    <Text style={styles.question}>{quiz.question}</Text>
+                </View>
+            </View>
             <View> 
                 <FlatList
                 data={answers}
@@ -35,11 +47,20 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
                     pos={index} />
                     )}
                     keyExtractor={(item,index) => index }
-                    />
+                />
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    question:{
+        fontSize:25,
+        fontStyle:"italic",
+        textAlign:'center'
+    },
+})
+
 
 export default QuizScreen
 

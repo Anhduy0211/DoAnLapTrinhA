@@ -18,7 +18,14 @@ const FlatButton = ({onPress,style,title,pos})=>{
 
     return (
         <TouchableOpacity onPress={onPress} style={style}>
-            <Text style= {{  fontSize:25, color:"white",marginVertical:20,fontWeight:"300"}}>{title}</Text>
+            <Text style= {{  
+                fontSize:25, 
+                color:"white",
+                fontWeight:"300",
+                marginLeft:30,
+                paddingVertical:30,
+                paddingHorizontal:15
+                }}>{title}</Text>
         </TouchableOpacity>
     );
 }   

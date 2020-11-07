@@ -1,14 +1,14 @@
 import React, { useState,useEffect } from 'react';
-import {Button, Text,View} from 'react-native';
+import {Alert, Button, Text,View} from 'react-native';
 import PieCharter from '../components/PieChart';
 import QuizScreen from '../components/QuizScreen';
 
 import {globalStyles} from '../globalStyle/style';
 
-const Quiz =({quizColl,navigation }) => {
+const Quiz =( {route,navigation}) => {
     //----------------------------------------Initial State--------------------------------------------------------// 
     //Bộ n câu hỏi
-    const [quiz, setQuiz] = useState(quizColl)
+    const [quiz, setQuiz] = useState(route.params.quizCollections)
 
     // Flag start / end
     const [start, setStart] = useState(true)
@@ -43,24 +43,31 @@ const Quiz =({quizColl,navigation }) => {
                 else{
                     setCheck(false);
                 }
-            },800)
+            },1000)
         }
         delay();
         if(quiz.length==0){
             setEnd(true);
         }
+        return () =>{
+            clearTimeout();
+        }
     }, [quiz])
 
     //Delay 1s để chạy màn hình start
     useEffect(() => {
+        // console.log(route)
         async function delay(){
             await setTimeout(()=>{
-                setStart(false)
+                setStart(false);
             },1000)
         }
         delay();
+        return () =>{
+            clearTimeout();
+        }
     }, [])
-    
+
     //----------------------------------------End LifeCycle------------------------------------------------------// 
     
     //---------------------------------------Execute Method------------------------------------------------------// 
@@ -90,6 +97,20 @@ const Quiz =({quizColl,navigation }) => {
         else
             return null;
     }
+
+    //prevent back ve 
+    useEffect(() =>
+          navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            Alert.alert(
+              'Discard changes?',
+              'You have unsaved changes. Are you sure to discard them and leave the screen?',
+              [
+                { text: "Don't leave", style: 'cancel',      onPress: () => {} },
+                { text: 'Discard',     style: 'destructive', onPress: () => navigation.push("Home")},
+              ]
+            );
+          }),[navigation])
 
     //----------------------------------------Return UI----------------------------------------------------------// 
 
@@ -130,9 +151,15 @@ const Quiz =({quizColl,navigation }) => {
     //Màn hình của QUIZ
     else if(quiz.length != 0 )
     return(
-        <View>
+        <View style={{
+            flex:1,
+            marginVertical:20,
+            justifyContent:"space-between",
+        }}>
             <QuizScreen quiz = {currentQuiz} onAnwerQuiz={answerQuiz}/>
-            <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
+            <View style={{paddingTop:20}} >
+                <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
+            </View>
         </View>)
     else
 

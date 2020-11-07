@@ -1,46 +1,43 @@
-import React from 'react';
-import { StyleSheet, View,ImageBackground } from 'react-native';
+import React,{useEffect} from 'react';
+import { View,ImageBackground,Alert } from 'react-native';
 
-import { Button } from 'react-native-elements';
+import MarioCard from '../components/MarioCard';
+import Header from '../components/Header';
 
 import { globalStyles } from '../globalStyle/style';
-import {homeBg} from '../shared/imageURL'
+import {easyImg, playStateImg, hardImg, normalImg} from '../shared/imageURL'
 
 
 const Home = ({navigation}) =>{
+
+    useEffect(() =>
+          navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+          }),[navigation])
+
     return(
         <View style={globalStyles.container}>
-            <ImageBackground source={{uri:homeBg}} style={globalStyles.backgroundImage}>
-                <View style={styles.con}>
-                    <View style={styles.btnCon}>
-                        <Button buttonStyle={styles.btn} titleStyle={styles.btnText} raised title="Quiz" onPress={()=>navigation.push('Quiz')}/>
+            <Header title="Home" homeHeader={true} />
+            <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
+                <View style={{
+                    flex:1,
+                    marginTop:55
+                    }}>
+                    <MarioCard onPress={()=>navigation.push("Quiz2")} color={"#00981d"} title={"easy"} imgSrc={easyImg}/>
+                    <MarioCard onPress={()=>navigation.push("Quiz2")} color={"#d89e33"} title={"normal"} imgSrc={normalImg}/>
+                    <MarioCard onPress={()=>navigation.push("Quiz2")} color={"#f90908"} title={"hard"} imgSrc={hardImg}/>
+                    {/* <View style={styles.btnCon}>
+                        <Button buttonStyle={styles.btn} titleStyle={styles.btnText} raised title="Quiz" onPress={()=>navigation.push('Quiz1')}/>
                     </View>
                     <View style={styles.btnCon}>
                         <Button buttonStyle={styles.btn}  titleStyle={styles.btnText} raised title="History" onPress={()=>navigation.push('History')}/>
-                    </View>
+                    </View> */}
                 </View>
             </ImageBackground>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-    btn:{
-        height:100,
-        backgroundColor:'salmon',
-        borderRadius:40,
-    },
-    con:{
-        marginHorizontal:40,
-    },
-    btnCon:{
-        marginTop:30,
-    },
-    btnText:{
-        fontWeight:"bold", 
-        textTransform:'uppercase',
-    }
-})
 
 
 

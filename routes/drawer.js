@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 import { createDrawerNavigator, DrawerContentScrollView,DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import HistoryNavigatorScreen from './stack/historyStack';
+// import HistoryNavigatorScreen from './stack/quizStack';
 import HomeNavigatorScreen from './stack/homeStack';
 
 
@@ -54,7 +54,7 @@ function MainNavigatorScreen() {
 const MainNavigation = () => {
     return (
       <NavigationContainer>
-        <MainNavigatorScreen />
+        <HomeNavigatorScreen />
       </NavigationContainer>
     );
 }

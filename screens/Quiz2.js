@@ -1,33 +1,29 @@
 import React, { useState,useEffect } from 'react';
-import { ImageBackground, Text,View,StyleSheet,Image, Button} from 'react-native';
+import { ImageBackground, Text, View, StyleSheet, Image, Button} from 'react-native';
 
 import { Card } from 'react-native-elements';
 
 import Box from '../components/Box'
-import Quiz from './Quiz';
-
-import { mushroomImg, quizBg } from '../shared/imageURL';
+import Header from '../components/Header';
 import {globalStyles} from '../globalStyle/style';
 
+import { mushroomImg, playStateImg } from '../shared/imageURL';
+
 const QuizMain =({navigation}) => {
-    //Bộ câu hỏi
     //----------------------------------------Initial State--------------------------------------------------------// 
     const [quiz, setQuiz] = useState([
-        {id:0,question:"1",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
-        {id:1,question:"2",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
-        {id:2,question:"3", answers:["true","flase"],correctAnwer: "true"},
-        {id:3,question:"4",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
-        {id:4,question:"5",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
-        {id:5,question:"6", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
-        {id:6,question:"7",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes"},
-        {id:7,question:"8",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are"},
-        {id:8,question:"9", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping"},
+        {id:0,question:"1111111111111111111111111111sssss",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes",type:"easy"},
+        {id:1,question:"222222222222222222sssssssss",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are",type:"normal"},
+        {id:2,question:"33333333333333333333333333333ssssss", answers:["true","flase"],correctAnwer: "true",type:"hard"},
+        {id:3,question:"3334444444444s44ssssssssssssss",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes",type:"hard"},
+        {id:4,question:"444444444445ssssssssssss",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are",type:"easy"},
+        {id:5,question:"33333333333333333333333sssssssssssss", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping",type:"hard"},
+        {id:6,question:"444444444444444444444ssss",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes",type:"normal"},
+        {id:7,question:"444444444444444444444444ssssssss8",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are",type:"easy"},
+        {id:8,question:"33333333333333sssssssssss", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping",type:"easy"},
     ])
 
     const [quizColl, setQuizColl] = useState([])
-
-    const [start, setStart] = useState(true)
-    const [end, setEnd] = useState(false)
 
     const [quantiies, setQuantiies] = useState(5)
 
@@ -61,22 +57,26 @@ const QuizMain =({navigation}) => {
             arrTempt = tempt;
             y++;
         }
-        setQuizColl(arr)
-        setStart(false)
-        setEnd(true)
+        return arr;
+    }
+    function nav(){
+        let value = sendColl();
+        navigation.push("Quiz3",{
+            quizCollections:value
+        })
     }
 
     //-----------------------------------End Execute Method------------------------------------------------------//   
      
 
     //----------------------------------------Return UI----------------------------------------------------------// 
-    if(start == true)
     return(
-        <View style={globalStyles.container}>
-            <ImageBackground source={{uri:quizBg}} style={globalStyles.backgroundImage}>
+        <View style={{flex:1}}>
+            <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+            <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
                 <Card> 
                     <View>
-                        <Text style={styles.choose}>How many quiz do you want</Text>
+                        <Text style={styles.choose}>Choose the number of questions</Text>
                     </View>
                     <View style={styles.quizCon}>
                         <Box name='minus' onPress={()=>getQuizQuantities("-")} />
@@ -85,18 +85,10 @@ const QuizMain =({navigation}) => {
                         </ImageBackground>
                         <Box name='plus' onPress={()=>getQuizQuantities("+")} />
                     </View>
-                    <Button title="Play" onPress={sendColl}/>
+                    <Button title="Play" onPress={nav}/>
                 </Card>
             </ImageBackground>
         </View>
-    )
-    else if (end == true)
-    return(
-        <Quiz navigation={navigation} quizColl={quizColl}/>
-    )
-    else
-    return(
-        <View/>
     )
 }
 
@@ -112,6 +104,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         color:'#ec2d36',
         fontSize:23,
+        textTransform:'uppercase',
     },
     quizCon:{
         alignItems:'center',

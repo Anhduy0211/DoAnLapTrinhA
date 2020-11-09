@@ -1,7 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { ImageBackground, Text, View, StyleSheet, Image, Button} from 'react-native';
-
-import { Card } from 'react-native-elements';
+import { ImageBackground, Text, View, StyleSheet, Image, Button ,TouchableOpacity} from 'react-native';
 
 import Box from '../components/Box'
 import Header from '../components/Header';
@@ -9,28 +7,16 @@ import {globalStyles} from '../globalStyle/style';
 
 import { mushroomImg, playStateImg } from '../shared/imageURL';
 
-const QuizMain =({navigation}) => {
+const QuizMain =({navigation,route}) => {
     //----------------------------------------Initial State--------------------------------------------------------// 
-    const [quiz, setQuiz] = useState([
-        {id:0,question:"1111111111111111111111111111sssss",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes",type:"easy"},
-        {id:1,question:"222222222222222222sssssssss",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are",type:"normal"},
-        {id:2,question:"33333333333333333333333333333ssssss", answers:["true","flase"],correctAnwer: "true",type:"hard"},
-        {id:3,question:"3334444444444s44ssssssssssssss",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes",type:"hard"},
-        {id:4,question:"444444444445ssssssssssss",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are",type:"easy"},
-        {id:5,question:"33333333333333333333333sssssssssssss", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping",type:"hard"},
-        {id:6,question:"444444444444444444444ssss",answers:["eyes","legs","hands","ears"],correctAnwer:"eyes",type:"normal"},
-        {id:7,question:"444444444444444444444444ssssssss8",answers:["is" ,"eyes", "are" ,"has"] ,correctAnwer:"are",type:"easy"},
-        {id:8,question:"33333333333333sssssssssss", answers:["shopping","to shop", "for shopping" ,"to make shopping"],correctAnwer: "to make shopping",type:"easy"},
-    ])
-
-    const [quizColl, setQuizColl] = useState([])
-
+    const [quiz, setQuiz] = useState(route.params.quizFromScreen1)
     const [quantiies, setQuantiies] = useState(5)
-
     //----------------------------------------End Init State-------------------------------------------------------// 
+
 
     //---------------------------------------Execute Method------------------------------------------------------//    
 
+    // Chọn số lượng câu hỏi
     const getQuizQuantities =(val)=>{
         if(val==="+" && quantiies<10){
             setQuantiies(quantiies+1)
@@ -40,29 +26,37 @@ const QuizMain =({navigation}) => {
         }
     }
     
-    const sendColl = ()=>{
+    // Ramdom bộ câu hỏi
+    const ramdomQuizPosition = ()=>{
         let arr = []
         let arrTempt = quiz;
-        let y = 0;
+        let y = 0; // cờ để dừng ramdom
         for (let i = arrTempt.length-1 ; i >-1 ; i--){
-            if(y==quantiies){break;}
-
+            //Ramdom vị trí
             let random = Math.floor(Math.random()*(i+1));
             if(random==i+1){
                 random = Math.floor(Math.random()*(i+1));
             }
-            arr.push(arrTempt[random])
 
+            // Ramdom đúng số lượng câu hỏi được chọn
+            if(y == quantiies){
+                break;
+            }
+            
+            // Tạo mảng tạm để chứa giá trị ramdom
+            arr.push(arrTempt[random])
+            
+            // Lọc mảng mới và xóa giá trị vừa push
             let tempt = arrTempt.filter( x => x != arrTempt[random])
             arrTempt = tempt;
             y++;
         }
         return arr;
     }
-    function nav(){
-        let value = sendColl();
+    function navigationToScreen3(){
+        let value = ramdomQuizPosition();
         navigation.push("Quiz3",{
-            quizCollections:value
+            quizFromScreen2:value
         })
     }
 
@@ -74,19 +68,41 @@ const QuizMain =({navigation}) => {
         <View style={{flex:1}}>
             <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
             <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
-                <Card> 
-                    <View>
-                        <Text style={styles.choose}>Choose the number of questions</Text>
+                <View style={styles.container}>
+
+                    <View style={styles.sec1}>
+                        {/* Title */}
+                        <View style={styles.title}>
+                            <Text style={styles.choose}>Choose the number of questions</Text>
+                        </View>
+                        {/* ----------------------------------- */}
+                        
+                        {/* Cloud */}
+                        <View >
+                            <ImageBackground style={styles.clound} source={require('../shared/images/cloud1.png')}>
+                                <Text style={{...styles.choose,...{fontSize:85}}}>{quantiies}</Text>
+                            </ImageBackground>
+                        </View>
+                        {/* ----------------------------------- */}
                     </View>
-                    <View style={styles.quizCon}>
-                        <Box name='minus' onPress={()=>getQuizQuantities("-")} />
-                        <ImageBackground style={styles.mushroom} source={{uri:mushroomImg}}>
-                            <Text style={{...styles.choose,marginTop:4}}>{quantiies}</Text>
-                        </ImageBackground>
-                        <Box name='plus' onPress={()=>getQuizQuantities("+")} />
+                            
+                    <View style={styles.sec2}> 
+                        {/* Box  */}
+                        <View style={styles.toolBox}>
+                            <Box name='minus' onPress={()=>getQuizQuantities("-")} />
+                            <Box name='plus' onPress={()=>getQuizQuantities("+")} />
+                        </View>
+                        {/* ----------------------------------- */}
+                        
+                        {/* Nút bắt đầu */}
+                        <View>
+                            <TouchableOpacity style={styles.btn} onPress={navigationToScreen3} >
+                                <Text  style={styles.btnText}>Get start</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {/* ----------------------------------- */}
                     </View>
-                    <Button title="Play" onPress={nav}/>
-                </Card>
+                </View>
             </ImageBackground>
         </View>
     )
@@ -94,23 +110,62 @@ const QuizMain =({navigation}) => {
 
 
 const styles = StyleSheet.create({
-    mushroom:{
-        width:80,
-        height:80,
+    container:{
+        flex:1,
+        justifyContent:'space-between',
+    },
+    clound:{
+        resizeMode:'cover',
+        width:300,
+        height:150,
+        opacity:.8,
         alignItems:'center',
+        justifyContent:'center',
         marginHorizontal:15,
     },
     choose:{
         fontWeight:'bold',
-        color:'#ec2d36',
-        fontSize:23,
+        color:'#e8504d',
+        fontSize:30,
         textTransform:'uppercase',
+        textAlign:'center',
     },
-    quizCon:{
+    toolBox:{
         alignItems:'center',
-        justifyContent:'center',
+        justifyContent:'space-between',
         flexDirection:'row',
-        marginTop:30,
+        marginHorizontal:40,
+        marginBottom:50,
     },
+    btn:{
+        backgroundColor:'#e8504d',
+        // borderWidth:3,
+        // borderColor:'#e8504d',
+        width:"60%",
+        height:50,
+        alignItems:'flex-end',
+        borderRadius:25,
+        justifyContent:'center',
+        alignItems:'center',
+        alignSelf:'flex-end',
+        marginRight:40,
+        marginVertical:50,
+    },
+    btnText:{
+        letterSpacing:2,
+        color:'white',
+        fontWeight:'bold',
+        fontSize:25,
+    },
+    title:{
+        marginVertical:40,
+        marginHorizontal:30,
+    },
+    // sec2:{
+    //     backgroundColor:'red',
+    // },
+    // sec1:{
+    //     backgroundColor:'red',
+    // }
 })
 export default QuizMain;

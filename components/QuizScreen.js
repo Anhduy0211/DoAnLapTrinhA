@@ -42,7 +42,6 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
                 renderItem={({item,index})=>(
                     <FlatButton  key={index} 
                     onPress={()=>(onAnwerQuiz(item))} 
-                    style={globalStyles.button} 
                     title={item}
                     pos={index} />
                     )}

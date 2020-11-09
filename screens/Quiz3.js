@@ -1,18 +1,26 @@
 import React, { useState,useEffect } from 'react';
-import {Alert, Button, Text,View} from 'react-native';
+import {Alert, Button, Text,View,ImageBackground, StyleSheet} from 'react-native';
+
 import PieCharter from '../components/PieChart';
 import QuizScreen from '../components/QuizScreen';
+import Header from '../components/Header';
+
+
+import { mushroomImg, playStateImg } from '../shared/imageURL';
+
 
 import {globalStyles} from '../globalStyle/style';
 
 const Quiz =( {route,navigation}) => {
     //----------------------------------------Initial State--------------------------------------------------------// 
     //Bộ n câu hỏi
-    const [quiz, setQuiz] = useState(route.params.quizCollections)
+    const [quiz, setQuiz] = useState(route.params.quizFromScreen2)
 
     // Flag start / end
     const [start, setStart] = useState(true)
     const [end, setEnd] = useState(false)
+    const [index, setIndex] = useState(0)
+
     
     // Flag chấm điểm 
     const [check,setCheck] = useState(false)
@@ -81,7 +89,6 @@ const Quiz =( {route,navigation}) => {
         else{
             setCheckValue(false)
         }
-
         let newQuizCollection = quiz.filter(quizs => quizs.id != currentQuiz.id)
         setQuiz(newQuizCollection);
     }
@@ -118,8 +125,11 @@ const Quiz =( {route,navigation}) => {
     //Lúc bắt đầu
     if(start)
         return(
-            <View>
-                <Text style={globalStyles.score}>Wellcome to the test</Text>
+            <View style={globalStyles.container}>
+                <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+                <ImageBackground source={{uri:playStateImg}} style={globalStyles.quizContainer}>
+                    <Text style={globalStyles.quizText}>Wellcome to the test</Text>
+                </ImageBackground>
             </View>)   
 
     //Lúc chấm điểm
@@ -127,25 +137,35 @@ const Quiz =( {route,navigation}) => {
         return(
         <View style={globalStyles.container}>
             {checkValue?
-            <View>
-                <Text style= {globalStyles.score}>Your answer is correct</Text>
+             <View style={globalStyles.container}>
+                <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+                <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
+
+                    <Text style= {globalStyles.quiztext}>Your answer is correct</Text>
+                </ImageBackground>
             </View>
-            :<View>
-                <Text style= {globalStyles.score}>Your answer is wrong</Text>
-                <Text style= {globalStyles.score}>Correctt answer is {currentQuiz.correctAnwer}</Text>
+            :<View style={globalStyles.container}>
+                <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+                <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
+                    <Text style= {globalStyles.quizText}>Your answer is wrong</Text>
+                    <Text style= {globalStyles.quizText}>Correctt answer is {currentQuiz.correctAnwer}</Text>
+                </ImageBackground>
             </View>}
         </View>)
 
     //Xuất kết quả
     else if(end) 
     return(
-        <View >
-            <Text style= {globalStyles.score} >End of the test</Text>
-            <Text style= {globalStyles.score} >{evaluate(point,total)?evaluate(point,total):"Test end"}</Text>
-            <PieCharter total={total} point={point}/>
-            <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
-            <Button title="Back" onPress= {()=>navigation.navigate('Home')}/>
-            <Button title="Again" onPress= {()=>navigation.push('Quiz')}/>
+        <View style={globalStyles.container}>
+            <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+            <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
+                <Text style= {globalStyles.quizText} >End of the test</Text>
+                <Text style= {globalStyles.quizText} >{evaluate(point,total)?evaluate(point,total):"Test end"}</Text>
+                <PieCharter total={total} point={point}/>
+                <Text style= {globalStyles.quizText}>Score: {point}/{total}</Text>
+                <Button title="Back" onPress= {()=>navigation.navigate('Home')}/>
+                <Button title="Again" onPress= {()=>navigation.push('Quiz1')}/>
+            </ImageBackground>
         </View>)
 
     //Màn hình của QUIZ
@@ -153,13 +173,15 @@ const Quiz =( {route,navigation}) => {
     return(
         <View style={{
             flex:1,
-            marginVertical:20,
-            justifyContent:"space-between",
         }}>
-            <QuizScreen quiz = {currentQuiz} onAnwerQuiz={answerQuiz}/>
-            <View style={{paddingTop:20}} >
-                <Text style= {globalStyles.score}>Score: {point}/{total}</Text>
-            </View>
+            <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+            <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
+
+                <QuizScreen quiz = {currentQuiz} onAnwerQuiz={answerQuiz}/>
+                <View style={{paddingTop:20}} >
+                    <Text style= {globalStyles.quizText}>Score: {point}/{total}</Text>
+                </View>
+            </ImageBackground>
         </View>)
     else
 

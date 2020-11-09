@@ -1,18 +1,17 @@
 import {StyleSheet} from 'react-native'; 
 
 export const globalStyles = StyleSheet.create({
-    header:{
-        width:'100%',
-        height:'100%',
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center',
+    quizText:{
+        color:"salmon",
+        fontSize:25,
+        textAlign:"center",
+        fontWeight:"800",
     },
-    headerText:{
-        fontWeight:'bold',
-        fontSize:20,
-        color:'#fff',
-        letterSpacing:1,
+    quizContainer:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+
     },
     button:{
         backgroundColor:"salmon",
@@ -20,13 +19,6 @@ export const globalStyles = StyleSheet.create({
         marginHorizontal:15,
         borderRadius:10,
     },
-    score:{
-        color:"salmon",
-        fontSize:25,
-        textAlign:"center",
-        fontWeight:"800",
-    },
-
     backgroundImage: {
         flex:1,
         resizeMode:'contain',

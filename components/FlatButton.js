@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity,StyleSheet } from 'react-native';
 
-const FlatButton = ({onPress,style,title,pos})=>{
+const FlatButton = ({onPress,title,pos})=>{
     //Đánh số thứ tự câu
     // const getPosition= (pos)=>{
     //     if(pos==0)
@@ -17,16 +17,29 @@ const FlatButton = ({onPress,style,title,pos})=>{
     //------------------------------------------------Render UI-------------------------------------------------------------//
 
     return (
-        <TouchableOpacity onPress={onPress} style={style}>
+        <TouchableOpacity onPress={onPress} style={styles.button}>
             <Text style= {{  
                 fontSize:25, 
                 color:"white",
                 fontWeight:"300",
-                marginLeft:30,
-                paddingVertical:30,
-                paddingHorizontal:15
+                paddingVertical:15,
+                paddingHorizontal:20,
                 }}>{title}</Text>
         </TouchableOpacity>
     );
 }   
+
+const styles = StyleSheet.create({
+  
+    button:{
+        backgroundColor:"salmon",
+        marginTop:10,
+        marginHorizontal:15,
+        borderRadius:10,
+        shadowOffset:{width:10 ,height:3},
+        shadowColor:"black",
+        shadowOpacity:.7,
+    },
+   
+})
 export default FlatButton;

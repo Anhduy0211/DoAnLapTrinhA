@@ -1,11 +1,7 @@
 import React from 'react';
-
-import { ImageBackground, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {Text,View,Image} from 'react-native';
-
 import { Icon } from 'react-native-elements';
-import { globalStyles } from '../globalStyle/style';
-
 
 
 const Header = ({navigation,title,homeHeader}) =>{
@@ -14,15 +10,12 @@ const Header = ({navigation,title,homeHeader}) =>{
             <View style ={styles.header}>
                 <View style={{paddingTop:30}}>
                     <View style={styles.headerContainer}>
-                            
                             <View style={{marginLeft:15,}}>
                                 <Image source={require('../shared/images/logo3.png')} style={styles.imgLogo}  />
                             </View>
-    
                             <View style={{flex:1}}>
                                 <Text style={styles.hearText}>{title}</Text>
                             </View>
-    
                             <View style={{marginRight:15,}}>
                                 <Icon color={"white"} name={"clear"} size={32} onPress={()=>{navigation.goBack()}}/>
                             </View>
@@ -30,24 +23,18 @@ const Header = ({navigation,title,homeHeader}) =>{
                 </View>
             </View>
         )
-       
     } else {
         return(
             <View style ={styles.header}>
                 <View style={{paddingTop:30}}>
                     <View style={styles.headerContainer}>
-                            
                             <View style={{marginLeft:15,}}>
                                 <Image source={require('../shared/images/logo3.png')} style={styles.imgLogo}  />
                             </View>
-    
-                            <View style={{
-                                flex:1,
-                            }}>
+                            <View style={{flex:1,}}>
                                 <Text style={styles.hearText}>{title}</Text>
                             </View>
-    
-                            <View style={{marginRight:15,}}>
+                            <View style={{marginRight:15}}>
                                 <Icon color={"white"} name={"face"} size={32}/>
                             </View>
                     </View>
@@ -55,7 +42,6 @@ const Header = ({navigation,title,homeHeader}) =>{
             </View>
         )
     }
-   
 }
 
  const styles = StyleSheet.create({

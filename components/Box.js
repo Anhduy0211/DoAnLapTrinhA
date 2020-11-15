@@ -11,7 +11,7 @@ import { boxImg, coinImg } from '../shared/imageURL';
 const Box =({onPress,name})=>{
     const coin = useRef(new Animated.Value(0)).current;
 
-    const animatedCoin =()=>{
+    const animatedCoin = () =>{
         onPress();
         Animated.stagger(250,[
             Animated.timing(coin,{
@@ -31,9 +31,7 @@ const Box =({onPress,name})=>{
 
     return(
             <ImageBackground style={styles.box} source={{uri:boxImg}}  >
-                    <Animated.View style={{...styles.coinContainer,
-                        ...{transform:[{translateY:coin }]}
-                        }}>
+                    <Animated.View style={{...styles.coinContainer,...{transform:[{translateY:coin }]}}}>
                         <Image style={styles.coin}  source={require('../shared/images/coin.png')}/>
                     </Animated.View>
                     <View style={{backgroundColor:'#f2cc09'}}>
@@ -45,7 +43,9 @@ const Box =({onPress,name})=>{
                                 name={name}
                                 size={80}
                                 color="white"
-                                />}/>
+                                />
+                            }
+                        />
                     </View>
             </ImageBackground>
     )

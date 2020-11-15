@@ -1,9 +1,6 @@
 import React, { useState,useEffect } from 'react';
-import {StyleSheet, Text,View, VirtualizedList} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import {StyleSheet, Text,View, FlatList} from 'react-native';
 import FlatButton from '../components/FlatButton';
-
-import {globalStyles} from '../globalStyle/style';
 
 const QuizScreen =({quiz,onAnwerQuiz})=>{
     const [answers, setAnswers] = useState(quiz.answers)
@@ -32,7 +29,7 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
                 flexWrap:'nowrap',
                 justifyContent:'center'
             }}>
-                <View>
+                <View style={styles.questionBox}>
                     <Text style={styles.question}>{quiz.question}</Text>
                 </View>
             </View>
@@ -43,9 +40,9 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
                     <FlatButton  key={index} 
                     onPress={()=>(onAnwerQuiz(item))} 
                     title={item}
-                    pos={index} />
+                    positon={index} />
                     )}
-                    keyExtractor={(item,index) => index }
+                    keyExtractor={(item,index) => index.toString() }
                 />
             </View>
         </View>
@@ -54,10 +51,19 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
 
 const styles = StyleSheet.create({
     question:{
-        fontSize:25,
-        fontStyle:"italic",
-        textAlign:'center'
+        fontSize:35,
+        fontWeight:'bold',
+        textAlign:'center',
+        color:'black',
+        paddingVertical:10,
     },
+    questionBox:{
+        width:"100%",  
+        height:"100%",
+        justifyContent:'center',
+        alignItems:'center'
+        
+    }
 })
 
 

@@ -14,8 +14,6 @@ const Loading = () =>{
         }
     },[load])
 
-
-
     return(    
         <View>
             <Image source={require('../shared/images/mario1.png')}  style={{

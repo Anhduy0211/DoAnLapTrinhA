@@ -1,15 +1,17 @@
 import React, { useState,useEffect } from 'react';
 import {Alert, Button, Text,View,ImageBackground, StyleSheet} from 'react-native';
 
+
 import PieCharter from '../components/PieChart';
 import QuizScreen from '../components/QuizScreen';
 import Header from '../components/Header';
 
+import {playStateImg } from '../shared/imageURL';
 
-import { mushroomImg, playStateImg } from '../shared/imageURL';
-
-
-import {globalStyles} from '../globalStyle/style';
+import { globalStyles } from '../globalStyle/style';
+import QuizCard from '../components/QuizCard';
+import Score from './Score';
+import QuizStart from './QuizStart';
 
 const Quiz =( {route,navigation}) => {
     //----------------------------------------Initial State--------------------------------------------------------// 
@@ -19,8 +21,6 @@ const Quiz =( {route,navigation}) => {
     // Flag start / end
     const [start, setStart] = useState(true)
     const [end, setEnd] = useState(false)
-    const [index, setIndex] = useState(0)
-
     
     // Flag chấm điểm 
     const [check,setCheck] = useState(false)
@@ -38,8 +38,8 @@ const Quiz =( {route,navigation}) => {
     //Delay để chấm điểm 
     useEffect(() => {
         setCheck(true)
-        async function delay(){
-            await setTimeout(()=>{
+         function delay(){
+             setTimeout(()=>{
                 if(quiz.length!=0){
                     let random = Math.floor(Math.random()*quiz.length);
                     if(random == quiz.length){
@@ -51,16 +51,15 @@ const Quiz =( {route,navigation}) => {
                 else{
                     setCheck(false);
                 }
-            },1000)
+            },1500)
+        }
+        if(quiz.length==0){
+            setEnd(true)
         }
         delay();
-        if(quiz.length==0){
-            setEnd(true);
-        }
-        return () =>{
-            clearTimeout();
-        }
     }, [quiz])
+
+
 
     //Delay 1s để chạy màn hình start
     useEffect(() => {
@@ -68,7 +67,7 @@ const Quiz =( {route,navigation}) => {
         async function delay(){
             await setTimeout(()=>{
                 setStart(false);
-            },1000)
+            },1700)
         }
         delay();
         return () =>{
@@ -82,7 +81,7 @@ const Quiz =( {route,navigation}) => {
     //Cộng điểm và chỉnh lại câu hỏi
     const answerQuiz = (value) =>{
         //+point
-        if(value === currentQuiz.correctAnwer){
+        if(value === currentQuiz.correctAnswer){
             setPoint(point+1);
             setCheckValue(true)
         }
@@ -93,17 +92,6 @@ const Quiz =( {route,navigation}) => {
         setQuiz(newQuizCollection);
     }
 
-    //đánh giá theo 3 thang điểm 
-    const evaluate = (point,total)=>{
-        if(point <= total*1/3)
-            return "Bad";
-        else if(point <= total*2/3)
-            return "Good";
-        else if(point <= total)
-            return"Excellent"
-        else
-            return null;
-    }
 
     //prevent back ve 
     useEffect(() =>
@@ -124,70 +112,59 @@ const Quiz =( {route,navigation}) => {
     //Màn hình trả lời
     //Lúc bắt đầu
     if(start)
-        return(
-            <View style={globalStyles.container}>
-                <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
-                <ImageBackground source={{uri:playStateImg}} style={globalStyles.quizContainer}>
-                    <Text style={globalStyles.quizText}>Wellcome to the test</Text>
-                </ImageBackground>
-            </View>)   
+        return( <QuizStart />   )   
 
     //Lúc chấm điểm
     else if(check === true)
-        return(
-        <View style={globalStyles.container}>
-            {checkValue?
-             <View style={globalStyles.container}>
-                <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
-                <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
-
-                    <Text style= {globalStyles.quiztext}>Your answer is correct</Text>
-                </ImageBackground>
-            </View>
-            :<View style={globalStyles.container}>
-                <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
-                <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
-                    <Text style= {globalStyles.quizText}>Your answer is wrong</Text>
-                    <Text style= {globalStyles.quizText}>Correctt answer is {currentQuiz.correctAnwer}</Text>
-                </ImageBackground>
-            </View>}
-        </View>)
+        return(<QuizCard navigation={navigation} checkValue={checkValue} correctAnswer={currentQuiz.correctAnswer} />)
 
     //Xuất kết quả
     else if(end) 
-    return(
-        <View style={globalStyles.container}>
-            <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
-            <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
-                <Text style= {globalStyles.quizText} >End of the test</Text>
-                <Text style= {globalStyles.quizText} >{evaluate(point,total)?evaluate(point,total):"Test end"}</Text>
-                <PieCharter total={total} point={point}/>
-                <Text style= {globalStyles.quizText}>Score: {point}/{total}</Text>
-                <Button title="Back" onPress= {()=>navigation.navigate('Home')}/>
-                <Button title="Again" onPress= {()=>navigation.push('Quiz1')}/>
-            </ImageBackground>
-        </View>)
+        return(<Score point={point} total={total} navigation={navigation} />)
 
     //Màn hình của QUIZ
     else if(quiz.length != 0 )
     return(
-        <View style={{
-            flex:1,
-        }}>
+        <View style={globalStyles.container}>
             <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
             <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
 
                 <QuizScreen quiz = {currentQuiz} onAnwerQuiz={answerQuiz}/>
-                <View style={{paddingTop:20}} >
-                    <Text style= {globalStyles.quizText}>Score: {point}/{total}</Text>
+
+                {/* Score */}
+                <View style={{
+                    paddingTop:15,
+                    paddingBottom:40,
+                    width:'80%',
+                    alignSelf:'center',
+                }} >
+                    <Text style= {styles.quizText}>Score: {point}/{total}</Text>
                 </View>
+                
             </ImageBackground>
         </View>)
     else
 
     return(
-        <View/>)
+        <View style={globalStyles.container}>
+            <Header navigation={navigation} title={"Quiz"} homeHeader={false}/>
+            <ImageBackground source={{uri:playStateImg}} style={globalStyles.backgroundImage}>
+                <View>
+                    <Text>Loading.....................</Text>
+                </View>
+            </ImageBackground>
+        </View>)
 }
 
 export default Quiz;
+
+const styles = StyleSheet.create({
+    quizText:{
+        color:"white",
+        fontSize:25,
+        textAlign:"center",
+        fontWeight:"bold",
+    },    
+})
+
 

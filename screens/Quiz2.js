@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     choose:{
         fontWeight:'bold',
         color:'#e8504d',
-        fontSize:30,
+        fontSize:15,
         textTransform:'uppercase',
         textAlign:'center',
     },

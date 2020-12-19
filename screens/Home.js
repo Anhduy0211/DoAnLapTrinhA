@@ -11,6 +11,9 @@ import ContactUs from './ContactUs';
 import AboutUspage from './AboutUs'
 import RakingScreen from './Ranking'
 import History from './History'
+import HelpUser from './HelpUser'
+import UserPanel from './UserPanel'
+
 
 import * as Animatable from 'react-native-animatable';
 
@@ -70,10 +73,13 @@ function QuizNavigatorScreen() {
 
       {/* <Stack.Screen name="Quiz Details" component={Details} /> */}
       <Stack.Screen name="Question" component={Quiz1} />
+      <Stack.Screen name="Help" component={HelpUser} />
+      <Stack.Screen name="UserPanel" component={UserPanel} />
     </Stack.Navigator>
   );
 }
 function QuizScreen({navigation,route}) {
+  
   return (
     
     /** LEVEL*/
@@ -107,14 +113,14 @@ function QuizScreen({navigation,route}) {
 
       <View style={styles.menuchoice}>
 
-        <TouchableHighlight underlayColor="#f1f8e9" activeOpacity={0.6} onPress={()=>{}} style={styles.menuchoice_details}>
+        <TouchableHighlight underlayColor="#f1f8e9" activeOpacity={0.6} onPress={()=>{navigation.navigate('UserPanel')}} style={styles.menuchoice_details}>
            <Animatable.View animation="fadeInDown" duration={1500} delay={800}>
               <Icon name='user'  type="font-awesome" />
               <Text>User Panel</Text>
             </Animatable.View>
         </TouchableHighlight>
 
-        <TouchableHighlight underlayColor="#f1f8e9" activeOpacity={0.6} onPress={()=>{}} style={styles.menuchoice_details}>
+        <TouchableHighlight underlayColor="#f1f8e9" activeOpacity={0.6} onPress={()=>{navigation.navigate('Help')}} style={styles.menuchoice_details}>
            <Animatable.View animation="fadeInUp" duration={1500} delay={800}>
                 <Icon name='question'  type="font-awesome" />
                 <Text>Help</Text>
@@ -177,25 +183,6 @@ function MainNavigatorScreen() {
   );
 }
 
-const HomeNavigator = createStackNavigator();
-function HomeNavigatorScreen() {
-  return (
-    <HomeNavigator.Navigator
-      initialRouteName='Home'
-      screenOptions={{
-        headerStyle: { backgroundColor: '#512DA8' },
-        headerTintColor: '#fff',
-        headerTitleStyle: { color: '#fff' }
-      }}>
-      <HomeNavigator.Screen name='Home' component={Home}
-        options={({ navigation }) => ({
-          headerTitle: 'Home',
-          headerLeft: () => (<Icon name='menu' size={36} color='#fff' onPress={() => navigation.toggleDrawer()} />)
-        })} />
-    </HomeNavigator.Navigator>
-  );
-}
-
 const AboutUs = createStackNavigator();
 
 function AmoungUsNavigator(){
@@ -228,7 +215,7 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state={
-      data: this.props.route.params.data.user.name
+      data: this.props.route.params.data.user.email
     };
     YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);
 }

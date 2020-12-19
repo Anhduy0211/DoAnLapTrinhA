@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import {playStateImg } from '../shared/imageURL';
 import { globalStyles } from '../globalStyle/style';
 
+
 export default QuizCard = ({correctAnswer,checkValue,navigation})=>{
     return(
         <View style={globalStyles.container}>

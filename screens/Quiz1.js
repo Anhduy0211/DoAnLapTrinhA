@@ -12,15 +12,15 @@ const Quiz1 = ({navigation}) =>{
     const [quiz, setQuiz] = useState([]) 
     const [loading, setLoading]= useState(true) 
 
-    useEffect(() => {
-        fetch('https://reactnative-server.herokuapp.com/questions')
-        .then(res => res.json() )
-        .then(data =>{ 
-            setQuiz(data.Quiz)
-        })
-        .catch(e => console.log(e))
-        .finally(()=> setLoading(false))
-    }, []);
+    // useEffect(() => {
+    //     fetch('https://reactnative-server.herokuapp.com/questions')
+    //     .then(res => res.json() )
+    //     .then(data =>{ 
+    //         setQuiz(data.Quiz)
+    //     })
+    //     .catch(e => console.log(e))
+    //     .finally(()=> setLoading(false))
+    // }, []);
 
     // Chọn level
     function navigationToScreen2(option){

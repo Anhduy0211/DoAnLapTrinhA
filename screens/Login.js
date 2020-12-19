@@ -5,11 +5,11 @@ import { StyleSheet, Text, View,Button,ImageBackground, TouchableHighlight,Platf
 
 export const isAndroid = () => Platform.OS === 'android';
 export const isIOS = () => Platform.OS === 'ios';
-import * as Google from 'expo-google-app-auth'
+import * as Google from 'expo-google-app-auth';
 const Login=(props)=> {
 
-  const SignInWithGoogle = async () => {
-     return await Google.logInAsync({
+  const SignInWithGoogle =  () => {
+       Google.logInAsync({
               clientId: isAndroid() ? '242605181936-8h6mavod7qdrq9c5o7tlck9aonh38itf.apps.googleusercontent.com': isIOS()?'242605181936-8n0kf6qp1t6mca6cnl0glc8kml601c4s.apps.googleusercontent.com' :false,
               scopes: ['profile', 'email'],
           })
@@ -23,7 +23,7 @@ const Login=(props)=> {
           <View style={styles.container} >
             <ImageBackground source={require('../images/Mario.png')} style={styles.image}>
               <View style={{width:'50%',alignItems:'center',textAlign:'center'}}>
-              <Text style={{fontWeight:'bold',fontSize:30}}>mRio</Text>
+              <Text style={{fontWeight:'bold',fontSize:30,marginBottom:30}}>MRio</Text>
               <Text style={{fontWeight:'bold'}}>JOIN WITH 10 MILLIONS PLAYER ENJOYED IN THE WORLD</Text>
               <TouchableHighlight style={styles.login}
                   onPress={SignInWithGoogle}
@@ -31,7 +31,7 @@ const Login=(props)=> {
               <Text style={styles.loginstyleButton}>Login with Google</Text>
               </TouchableHighlight>    
 
-              </View>
+            </View>
           
             </ImageBackground>
           </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    
   },
   image: {
     

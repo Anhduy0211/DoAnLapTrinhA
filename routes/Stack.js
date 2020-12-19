@@ -1,9 +1,7 @@
 import React,{useState,useEffect} from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import * as fb from 'firebase';
-import {firebaseConfig} from '../config';
-fb.initializeApp(firebaseConfig);
+
 
 import Home from '../screens/Home';
 import History from '../screens/History';

@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
-import {Text,View} from 'react-native';
-class HelpUser extends Component{
-    render() {
-        return (
-            <Text>Help User Screen</Text>
-        )
-    }
+import React,{ Component} from 'react';
+import {View,Text,ScrollView} from 'react-native'
+import CarouselComponent from '../components/Carousel'
+
+class HelpUser extends Component {
+  render() {
+    return (
+      <ScrollView>
+        <CarouselComponent/>
+      </ScrollView>
+    )
+  }
 }
+
 export default HelpUser;

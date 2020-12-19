@@ -2,6 +2,15 @@ import React, { useState,useEffect } from 'react';
 import {StyleSheet, Text,View, FlatList} from 'react-native';
 import FlatButton from '../components/FlatButton';
 
+// import Sound from 'react-native-sound';
+
+// const buttonFailed = new Sound(require('../assets/audio/MarioFailed.mp3'), error => console.log(error));
+// const buttonSucceeded = new Sound(require('../assets/audio/MarioSuccess.mp3'),error=>console.log(error));
+
+// export const playButtonPress = () => {
+//     buttonSucceeded.play((success) => buttonSucceeded.reset());
+//   }
+
 const QuizScreen =({quiz,onAnwerQuiz})=>{
     const [answers, setAnswers] = useState(quiz.answers)
     useEffect(() => {
@@ -51,7 +60,7 @@ const QuizScreen =({quiz,onAnwerQuiz})=>{
 
 const styles = StyleSheet.create({
     question:{
-        fontSize:35,
+        fontSize:20,
         fontWeight:'bold',
         textAlign:'center',
         color:'black',

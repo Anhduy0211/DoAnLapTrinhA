@@ -31,8 +31,8 @@ const Score = ({point,total,navigation}) =>{
                 <Text style= {styles.quizText} >{evaluate(point,total)?evaluate(point,total):"Test end"}</Text>
                 <PieCharter total={total} point={point}/>
                 <Text style= {styles.quizText}>Score: {point}/{total}</Text>
-                <Button title="Back" onPress= {()=>navigation.push('Quiz1')}/>
-                <Button title="Again" onPress= {()=>navigation.push('Quiz1')}/>
+                <Button title="Back" onPress= {()=>navigation.navigate('Quiz1')}/>
+                <Button title="Again" onPress= {()=>navigation.navigate('Quiz1')}/>
             </View>
         </ImageBackground>
     </View>

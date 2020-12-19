@@ -13,6 +13,8 @@ import QuizCard from '../components/QuizCard';
 import Score from './Score';
 import QuizStart from './QuizStart';
 
+
+
 const Quiz =( {route,navigation}) => {
     //----------------------------------------Initial State--------------------------------------------------------// 
     //Bộ n câu hỏi
@@ -74,7 +76,6 @@ const Quiz =( {route,navigation}) => {
             clearTimeout();
         }
     }, [])
-
     //----------------------------------------End LifeCycle------------------------------------------------------// 
     
     //---------------------------------------Execute Method------------------------------------------------------// 
@@ -102,7 +103,7 @@ const Quiz =( {route,navigation}) => {
               'You have unsaved changes. Are you sure to discard them and leave the screen?',
               [
                 { text: "Don't leave", style: 'cancel',      onPress: () => {} },
-                { text: 'Discard',     style: 'destructive', onPress: () => navigation.push("Home")},
+                { text: 'Discard',     style: 'destructive', onPress: () => navigation.navigate("Home")},
               ]
             );
           }),[navigation])
